@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10111b">
+<title>CONEXA - Rede Social</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #10111b;
+  color: white;
+  font-family: Arial, sans-serif;
+  padding-bottom: 80px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #191a27;
+  border-bottom: 1px solid #303143;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  color: #a78bfa;
+  letter-spacing: 2px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.stories {
+  display: flex;
+  gap: 18px;
+  padding: 20px;
+  overflow-x: auto;
+  border-bottom: 1px solid #303143;
+}
+
+.story {
+  min-width: 60px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#8b5cf6,#06b6d4);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  margin: auto auto 7px;
+}
+
+.create {
+  padding: 18px;
+  border-bottom: 1px solid #303143;
+}
+
+textarea {
+  width: 100%;
+  height: 80px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #38394b;
+  background: #202130;
+  color: white;
+  font-size: 15px;
+  resize: vertical;
+}
+
+.publish {
+  margin-top: 10px;
+  padding: 11px 22px;
+  background: #8058e8;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+.post {
+  padding: 18px;
+  border-bottom: 1px solid #303143;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.user .avatar {
+  width: 42px;
+  height: 42px;
+  margin: 0;
+}
+
+.user small {
+  display: block;
+  color: #999;
+  margin-top: 4px;
+}
+
+.post-text {
+  line-height: 1.6;
+  margin-bottom: 15px;
+  overflow-wrap: anywhere;
+}
+
+.post-image {
+  height: 200px;
+  border-radius: 13px;
+  background: linear-gradient(135deg,#36215d,#176d82);
+  display: grid;
+  place-items: center;
+  font-size: 50px;
+  margin-bottom: 15px;
+}
+
+.actions {
+  display: flex;
+  gap: 22px;
+}
+
+.actions button {
+  background: none;
+  border: none;
+  color: #bbb;
+  font-size: 23px;
+}
+
+.actions button.liked {
+  color: #f472b6;
+}
+
+.likes {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: #191a27;
+  padding: 16px;
+  border-top: 1px solid #303143;
+}
+
+nav button {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 23px;
+}
+
+nav button.active {
+  color: #a78bfa;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">CONEXA.</div>
+  <div>🔔</div>
+</header>
+
+<main class="container">
+
+<section class="stories">
+  <div class="story">
+    <div class="avatar">+</div>
+    Você
+  </div>
+  <div class="story">
+    <div class="avatar">👤</div>
+    Ana
+  </div>
+  <div class="story">
+    <div class="avatar">👨</div>
+    Lucas
+  </div>
+  <div class="story">
+    <div class="avatar">👩</div>
+    Maria
+  </div>
+  <div class="story">
+    <div class="avatar">🧑</div>
+    Pedro
+  </div>
+</section>
+
+<section class="create">
+  <textarea id="newPost"
+  placeholder="O que você está pensando?"></textarea>
+
+  <button class="publish" onclick="publishPost()">
+    Publicar
+  </button>
+</section>
+
+<section id="feed">
+
+<article class="post">
+
+  <div class="user">
+    <div class="avatar">👤</div>
+    <div>
+      <strong>Ana Oliveira</strong>
+      <small>@ana • Agora</small>
+    </div>
+  </div>
+
+  <p class="post-text">
+    Bem-vindos ao CONEXA! 💜
+    Um novo espaço para compartilhar
+    ideias e conhecer pessoas.
+  </p>
+
+  <div class="post-image">🌌</div>
+
+  <div class="actions">
+    <button onclick="likePost(this)">♡</button>
+    <button onclick="commentPost()">💬</button>
+    <button onclick="sharePost()">↗</button>
+  </div>
+
+  <div class="likes">12 curtidas</div>
+
+</article>
+
+</section>
+</main>
+
+<nav>
+  <button class="active" onclick="goHome(this)">⌂</button>
+  <button onclick="showExplore()">⌕</button>
+  <button onclick="focusPost()">＋</button>
+  <button onclick="showMessages()">✉</button>
+  <button onclick="showProfile()">◉</button>
+</nav>
+
+<script>
+
+function likePost(button) {
+  button.classList.toggle("liked");
+  button.textContent =
+    button.classList.contains("liked") ? "♥" : "♡";
+}
+
+function publishPost() {
+  const input = document.getElementById("newPost");
+  const text = input.value.trim();
+
+  if (!text) {
+    alert("Escreva alguma coisa primeiro!");
+    return;
+  }
+
+  const post = document.createElement("article");
+  post.className = "post";
+
+  const user = document.createElement("div");
+  user.className = "user";
+
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  avatar.textContent = "👤";
+
+  const info = document.createElement("div");
+  const name = document.createElement("strong");
+  name.textContent = "Meu perfil";
+
+  const date = document.createElement("small");
+  date.textContent = "Agora";
+
+  info.append(name, date);
+  user.append(avatar, info);
+
+  const paragraph = document.createElement("p");
+  paragraph.className = "post-text";
+  paragraph.textContent = text;
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  const like = document.createElement("button");
+  like.textContent = "♡";
+  like.onclick = () => likePost(like);
+
+  const comment = document.createElement("button");
+  comment.textContent = "💬";
+  comment.onclick = commentPost;
+
+  actions.append(like, comment);
+
+  post.append(user, paragraph, actions);
+
+  document.getElementById("feed").prepend(post);
+
+  input.value = "";
+}
+
+function commentPost() {
+  alert("Comentários serão adicionados em breve!");
+}
+
+function sharePost() {
+  alert("Compartilhamento em breve!");
+}
+
+function goHome(button) {
+  setActive(button);
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function focusPost() {
+  document.getElementById("newPost").focus();
+}
+
+function showExplore() {
+  alert("Explorar: em desenvolvimento!");
+}
+
+function showMessages() {
+  alert("Mensagens: em desenvolvimento!");
+}
+
+function showProfile() {
+  alert("Perfil: em desenvolvimento!");
+}
+
+function setActive(button) {
+  document.querySelectorAll("nav button")
+    .forEach(item => item.classList.remove("active"));
+
+  button.classList.add("active");
+}
+
+</script>
+
+</body>
+</html>
